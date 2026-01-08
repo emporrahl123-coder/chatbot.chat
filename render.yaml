@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: rahl-chatbot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PORT
+        value: 8000
+    healthCheckPath: /health
+    autoDeploy: true
+    disk:
+      name: chroma-data
+      mountPath: /app/chroma_db
+      sizeGB: 10
